@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Player Movement")]
     [SerializeField]
     private Rigidbody2D rb;
 
@@ -16,14 +17,23 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private Animator animator;
 
+    [SerializeField]
+    private float groundCheckDistance;
+
     private float xInput;
-    private SpriteRenderer spriteRenderer;
     private bool isRunning;
-    
+
+    private int facingDirection = 1;
+    private bool isFacingRight = true;
+
+    [Header("Ground Check")]
+    [SerializeField]
+    private LayerMask whatIsGround;
+    private bool isGrounded;
+
     void Start()
     {
         isRunning = false;
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     
@@ -31,6 +41,12 @@ public class PlayerMovement : MonoBehaviour
     {
         MovePlayer();
         Jump();
+        GroundCheck();
+    }
+
+    private void GroundCheck()
+    {
+        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround);
     }
 
     private void MovePlayer()
@@ -54,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
@@ -62,13 +78,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void Flip()
     {
-        if(xInput < 0)
+        if (xInput > 0 && !isFacingRight || xInput < 0 && isFacingRight)
         {
-            spriteRenderer.flipX = true;
-
-        } else if (xInput > 0)
-        {
-            spriteRenderer.flipX = false;
+            isFacingRight = !isFacingRight;
+            facingDirection *= -1;
+            transform.Rotate(0.0f, 180.0f, 0.0f);
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y - groundCheckDistance));
     }
 }

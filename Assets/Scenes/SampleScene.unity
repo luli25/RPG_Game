@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 996377235}
   - component: {fileID: 996377234}
   - component: {fileID: 996377236}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Square (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -461,7 +461,7 @@ GameObject:
   - component: {fileID: 1573674204}
   - component: {fileID: 1573674203}
   - component: {fileID: 1573674202}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -593,7 +593,7 @@ GameObject:
   - component: {fileID: 1708844394}
   - component: {fileID: 1708844389}
   m_Layer: 0
-  m_Name: Circle
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -615,6 +615,10 @@ MonoBehaviour:
   moveSpeed: 5
   jumpForce: 5
   animator: {fileID: 1555593362}
+  groundCheckDistance: 1.4
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!50 &1708844391
 Rigidbody2D:
   serializedVersion: 4
@@ -628,7 +632,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 0.02
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
@@ -699,5 +703,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 1573674204}
-  - {fileID: 1708844393}
   - {fileID: 996377235}
+  - {fileID: 1708844393}
