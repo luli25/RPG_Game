@@ -21,7 +21,6 @@ public class PlayerMovement : MonoBehaviour
     private float groundCheckDistance;
 
     private float xInput;
-    private bool isRunning;
 
     private int facingDirection = 1;
     private bool isFacingRight = true;
@@ -33,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        isRunning = false;
+        
     }
 
     
@@ -42,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
         MovePlayer();
         Jump();
         GroundCheck();
+        AnimationController();
     }
 
     private void GroundCheck()
@@ -54,16 +54,7 @@ public class PlayerMovement : MonoBehaviour
         xInput = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector2(xInput * moveSpeed, rb.velocity.y);
 
-        if(rb.velocity.x != 0)
-        {
-            isRunning = true;
-
-        } else
-        {
-            isRunning= false;
-        };
-
-        animator.SetBool("isRunning", isRunning);
+        
 
         Flip();
     }
@@ -89,5 +80,14 @@ public class PlayerMovement : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y - groundCheckDistance));
+    }
+
+    private void AnimationController()
+    {
+        bool isRunning = rb.velocity.x != 0;
+
+        animator.SetBool("isRunning", isRunning);
+        animator.SetBool("isGrounded", isGrounded);
+        animator.SetFloat("yVelocity", rb.velocity.y);
     }
 }
