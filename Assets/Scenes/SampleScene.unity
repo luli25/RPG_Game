@@ -612,8 +612,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1708844391}
-  moveSpeed: 8
-  jumpForce: 12
+  playerConfig: {fileID: 11400000, guid: 4030f4a2a53c95b4193ef06e728cc32d, type: 2}
   animator: {fileID: 1555593362}
   groundCheckDistance: 1.4
   whatIsGround:

@@ -9,10 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
 
     [SerializeField]
-    private float moveSpeed;
-
-    [SerializeField]
-    private float jumpForce;
+    private PlayerConfig playerConfig;
 
     [SerializeField]
     private Animator animator;
@@ -42,6 +39,13 @@ public class PlayerMovement : MonoBehaviour
         Jump();
         GroundCheck();
         AnimationController();
+
+        playerConfig.dashTime -= Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            playerConfig.dashTime = playerConfig.dashDuration;
+        }
     }
 
     private void GroundCheck()
@@ -52,9 +56,14 @@ public class PlayerMovement : MonoBehaviour
     private void MovePlayer()
     {
         xInput = Input.GetAxisRaw("Horizontal");
-        rb.velocity = new Vector2(xInput * moveSpeed, rb.velocity.y);
 
-        
+        if ((playerConfig.dashTime > 0))
+        {
+            rb.velocity = new Vector2(xInput * playerConfig.dashSpeed, 0);
+        } else
+        {
+            rb.velocity = new Vector2(xInput * playerConfig.moveSpeed, rb.velocity.y);
+        }
 
         Flip();
     }
@@ -63,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            rb.AddForce(Vector2.up * playerConfig.jumpForce, ForceMode2D.Impulse);
         }
     }
 
@@ -89,5 +98,6 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("isRunning", isRunning);
         animator.SetBool("isGrounded", isGrounded);
         animator.SetFloat("yVelocity", rb.velocity.y);
+        animator.SetBool("isDashing", playerConfig.dashTime > 0);
     }
 }
