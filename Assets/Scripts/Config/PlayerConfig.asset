@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 8
   jumpForce: 12
-  dashDuration: 0.4
-  dashTime: -2.3099983
-  dashSpeed: 15
+  dashDuration: 0.25
+  dashTime: -1.0345786
+  dashSpeed: 25
