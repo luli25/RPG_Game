@@ -27,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
     private LayerMask whatIsGround;
     private bool isGrounded;
 
+    private float dashCooldownTimer;
+
     void Start()
     {
         
@@ -39,11 +41,17 @@ public class PlayerMovement : MonoBehaviour
         Jump();
         GroundCheck();
         AnimationController();
+        DashAbility();
+    }
 
+    private void DashAbility()
+    {
         playerConfig.dashTime -= Time.deltaTime;
+        dashCooldownTimer -= Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer < 0)
         {
+            dashCooldownTimer = playerConfig.dashCooldown;
             playerConfig.dashTime = playerConfig.dashDuration;
         }
     }
